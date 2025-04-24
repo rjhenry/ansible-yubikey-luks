@@ -1,12 +1,12 @@
-Role Name
+yubikey-luks
 =========
 
-A brief description of the role goes here.
+Manages [`yubikey-luks`](https://github.com/cornelinux/yubikey-luks) on a host.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+At this point in time, this role is only tested on Debian machines.
 
 Role Variables
 --------------
@@ -30,9 +30,4 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+MIT
