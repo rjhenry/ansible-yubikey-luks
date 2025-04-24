@@ -1,3 +1,40 @@
 #SPDX-License-Identifier: MIT-0
 ---
-# defaults file for yubikey-luks
+# What host is expected to have the Yubikey plugged into it? This is used to
+# retrieve the `ykchalresp` output.
+# By default, the local host (control node) is expected to have the Yubikey
+# plugged into it as I use my Yubikey for SSH access.
+yubikey_luks_host_with_yubikey: 127.0.0.1
+
+# What kind of LUKS device is expected? Recent installs use luks2, so set as
+# a default. May need to be set to luks1.
+# See https://docs.ansible.com/ansible/latest/collections/community/crypto/luks_device_module.html
+yubikey_luks_device_type: luks2
+
+# What keyslot should be used for the Yubikey response? yubikey-luks-enroll
+# defaults to slot 7 unless otherwise configured, so do the same.
+yubikey_luks_keyslot: 7
+
+# Should the process of enrolling a Yubikey to the LUKS container be performed?
+yubikey_luks_enroll: true
+
+# Should the password be hashed before being passed to `ykchalresp`?
+# This sets the `HASH` option in /etc/ykluks.cfg as well as changing how the
+# enrollment process works.
+yubikey_luks_hash: false
+
+# Should the password be concatenated to the Yubikey challenge response before
+# being added to the LUKS container?
+# This sets the `CONCATENATE` option in /etc/ykluks.cfg as well as changing how
+# the enrollment process works.
+yubikey_luks_concatenate: false
+
+# What text should be used as the password prompt?
+# This sets the `WELCOME_TEXT` option in /etc/ykluks.cfg.
+yubikey_luks_welcome_text: >-
+  Please insert yubikey and press enter or enter a valid passphrase
+
+# Should a yubikey alone be acceptable to unlock this drive?
+# If set, be aware that `yubikey_luks_password` will be written IN PLAIN TEXT
+# to /etc/ykluks.cfg.
+yubikey_luks_use_1fa: false

@@ -1,0 +1,23 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Yubikey LUKS | Install | Ensure yubikey-luks package is installed
+  ansible.builtin.package:
+    name: yubikey-luks
+    state: present
+  become: true
+  tags:
+    - luks
+
+- name: Yubikey LUKS | Install | Template /etc/ykluks.cfg
+  ansible.builtin.template:
+    src: templates/etc/ykluks.cfg.j2
+    dest: /etc/ykluks.cfg
+    mode: ugo=r   # No write as a reminder that it's Ansible managed
+    owner: root
+    group: root
+  register: ykluks_cfg
+  become: true
+  notify:
+    - Yubikey LUKS | Update initramfs
+  tags:
+    - luks

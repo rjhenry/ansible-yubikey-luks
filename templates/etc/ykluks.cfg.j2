@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+
+# If you change this file, you need to run
+#   update-initramfs -u
+WELCOME_TEXT="{{ yubikey_luks_welcome_text }}"
+
+# Set to "1" if you want both your password and Yubikey response be bundled
+# together and written to key slot.
+{% if yubikey_luks_concatenate %}
+CONCATENATE=1
+{% else %}
+CONCATENATE=0
+{% endif %}
+
+# Set to "1" if you want to hash your password with sha256.
+{% if yubikey_luks_hash %}
+HASH=1
+{% else %}
+HASH=0
+{% endif %}
+
+# To allow 1FA use, set the YUBIKEY_CHALLENGE variable below to an enrolled
+# (and to-be-bypassed) password.
+{% if yubikey_luks_use_1fa %}
+YUBIKEY_CHALLENGE="{{ yubikey_luks_password }}"
+{% else %}
+# YUBIKEY_CHALLENGE="PutAPasswordHere"
+{% endif %}

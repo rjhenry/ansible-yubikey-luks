@@ -11,12 +11,14 @@ At this point in time, this role is only tested on Debian machines.
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Variables for this role are documented in
+[`defaults/main.yml`](defaults/main.yml) or in [`vars/main.yml`](vars/main.yml).
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The `community.crypto.luks_device` module is required to manage enrollment of a
+Yubikey to a LUKS device.
 
 Example Playbook
 ----------------

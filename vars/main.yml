@@ -1,3 +1,18 @@
 #SPDX-License-Identifier: MIT-0
 ---
-# vars file for yubikey-luks
+# What password should be used for the Yubikey challenge-response process?
+# This is the password that would be entered and passed to the Yubikey.
+# Equivalent of `$P1` in the `yubikey-luks-enroll` script.
+# Required.
+# yubikey_luks_password:
+
+# What passphrase is already set up on the LUKS container to authorise
+# additional key changes?
+# It is recommended to run this through `ansible-vault` or prompt for this in
+# your playbook rather than leaving it unencrypted in the inventory file(s).
+# Required if `yubikey_luks_enroll` is true.
+yubikey_luks_existing_passphrase: ThisIsAnExcellentPassphrase
+
+# What device should the Yubikey be enrolled onto?
+# Required if `yubikey_luks_enroll` is true.
+yubikey_luks_device: /dev/sda3

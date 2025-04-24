@@ -1,0 +1,41 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Yubikey LUKS | Simulate yubikey-luks-enroll | Hash password
+  ansible.builtin.set_fact:
+    __yk_luks_password: "{{ yubikey_luks_password | hash('sha256') }}"
+  when: yubikey_luks_hash
+
+- name: Yubikey LUKS | Simulate yubikey-luks-enroll | Set unhashed password
+  ansible.builtin.set_fact:
+    __yk_luks_password: "{{ yubikey_luks_password }}"
+  when: not yubikey_luks_hash
+
+- name: Yubikey LUKS | Simulate yubikey-luks-enroll | Fetch Yubikey challenge response
+  ansible.builtin.command: >-
+    ykchalresp -2 "{{ __yk_luks_password }}"
+  register: ykchalresp
+  delegate_to: "{{ yubikey_luks_host_with_yubikey }}"
+  # Don't show as changed every run, to avoid needless noise
+  changed_when: false
+
+- name: Yubikey LUKS | Simulate yubikey-luks-enroll | Concatenate password and response
+  ansible.builtin.set_fact:
+    __yk_luks_challenge_response: >-
+      {{ yubikey_luks_password }}{{ ykchalresp.stdout }}
+  when: yubikey_luks_concatenate
+
+- name: Yubikey LUKS | Simulate yubikey-luks-enroll | Set response
+  ansible.builtin.set_fact:
+    __yk_luks_challenge_response: "{{ ykchalresp.stdout }}"
+  when: not yubikey_luks_concatenate
+
+- name: Yubikey LUKS | Simulate yubikey-luks-enroll | Add challenge response to LUKS slot
+  community.crypto.luks_device:
+    device: "{{ yubikey_luks_device }}"
+    type: "{{ yubikey_luks_device_type }}"
+    passphrase: "{{ yubikey_luks_existing_passphrase }}"
+    new_passphrase: "{{ __yk_luks_challenge_response }}"
+    new_keyslot: "{{ yubikey_luks_keyslot }}"
+  register: yk_luks_updated
+  notify:
+    - Yubikey LUKS | Update initramfs
