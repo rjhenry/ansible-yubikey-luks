@@ -15,6 +15,7 @@
     ykchalresp -2 "{{ __yk_luks_password }}"
   register: ykchalresp
   delegate_to: "{{ yubikey_luks_host_with_yubikey }}"
+  become: false
   # Don't show as changed every run, to avoid needless noise
   changed_when: false
 
