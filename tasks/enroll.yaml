@@ -30,6 +30,14 @@
     __yk_luks_challenge_response: "{{ ykchalresp.stdout }}"
   when: not yubikey_luks_concatenate
 
+- name: Yubikey LUKS | Simulate yubikey-luks-enroll | Clear LUKS slot
+  community.crypto.luks_device:
+    device: "{{ yubikey_luks_device }}"
+    type: "{{ yubikey_luks_device_type }}"
+    passphrase: "{{ yubikey_luks_existing_passphrase }}"
+    remove_keyslot: "{{ yubikey_luks_keyslot }}"
+  when: yubikey_luks_clear_slot
+
 - name: Yubikey LUKS | Simulate yubikey-luks-enroll | Add challenge response to LUKS slot
   community.crypto.luks_device:
     device: "{{ yubikey_luks_device }}"

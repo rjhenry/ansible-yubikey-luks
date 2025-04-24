@@ -38,3 +38,9 @@ yubikey_luks_welcome_text: >-
 # If set, be aware that `yubikey_luks_password` will be written IN PLAIN TEXT
 # to /etc/ykluks.cfg.
 yubikey_luks_use_1fa: false
+
+# Should the slot be cleared before use?
+# This will fail if you use a passphrase from the same slot as you are
+# configuring for use with the yubikey. This is the equivalent of running
+# `yubikey-luks-enroll -c`
+yubikey_luks_clear_slot: true
