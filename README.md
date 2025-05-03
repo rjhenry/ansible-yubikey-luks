@@ -20,6 +20,9 @@ Dependencies
 The `community.crypto.luks_device` module is required to manage enrollment of a
 Yubikey to a LUKS device.
 
+The `community.general.crypttab` module is required to ensure the keyscript is
+added to the crypttab file.
+
 Example Playbook
 ----------------
 

@@ -22,3 +22,31 @@
   tags:
     - luks
     - yubikey_luks_enroll
+
+# See issue #1 on GitHub
+- name: Yubikey LUKS | Manage crypttab | Set keyscript var
+  ansible.builtin.set_fact:
+    __yk_luks_keyscript_opt:
+      - >-
+        keyscript={{ yubikey_luks_crypttab_keyscript_path }}
+  tags:
+    - luks
+    - yubikey_luks_manage_crypttab
+
+- name: Yubikey LUKS | Ensure yubikey-luks initramfs module is loaded
+  community.general.crypttab:
+    state: present
+    name: "{{ yubikey_luks_device | basename }}_crypt"
+    backing_device: "{{ yubikey_luks_device }}"
+    opts: >-
+      {{ (yubikey_luks_crypttab_default_options +
+          yubikey_luks_crypttab_extra_options | default(omit) +
+          __yk_luks_keyscript_opt )
+          | join(',')
+      }}
+  become: true
+  tags:
+    - luks
+    - yubikey_luks_manage_crypttab
+  notify:
+    - Yubikey LUKS | Update initramfs
