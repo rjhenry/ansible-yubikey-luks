@@ -16,3 +16,6 @@ yubikey_luks_existing_passphrase: ThisIsAnExcellentPassphrase
 # What device should the Yubikey be enrolled onto?
 # Required if `yubikey_luks_enroll` is true.
 yubikey_luks_device: /dev/sda3
+
+# Additional options to set for the crypttab entry. This list extends `yubikey_luks_crypttab_default_options`, and also has the keyscript added afterwards.
+yubikey_luks_crypttab_extra_options: []

@@ -44,3 +44,17 @@ yubikey_luks_use_1fa: false
 # configuring for use with the yubikey. This is the equivalent of running
 # `yubikey-luks-enroll -c`
 yubikey_luks_clear_slot: true
+
+# The default options for the volume's crypttab entry. This shouldn't need to
+# be touched, as `yubikey_luks_crypttab_extra_options` can be used to add to
+# this list. However, this may need to be re-defined in the event of wanting to
+# _remove_ some values.
+yubikey_luks_crypttab_default_options:
+  - luks
+  - discard
+  - x-initrd.attach
+
+# What is the path to the keyscript used by the LUKS-encrypted volume?
+# This is the default value for the file installed by the `yubikey-luks`
+# package.
+yubikey_luks_crypttab_keyscript_path: /usr/share/yubikey-luks/ykluks-keyscript
